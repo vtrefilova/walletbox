@@ -1,6 +1,6 @@
 FROM maven:3.8.4-openjdk-11 as build
 
-RUN git clone https://daniil-lab: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@github.com/daniil-lab/wp-system.git wp
+RUN git clone https://github.com/seleniumwebproject/walletbox.git wp
 
 WORKDIR wp
 
@@ -14,5 +14,5 @@ COPY ./images ./images
 
 EXPOSE 8080
 
-ENTRYPOINT java -jar walletbox-dev.jar
+ENTRYPOINT java -Djavax.net.ssl.trustStore -jar walletbox-dev.jar
 
