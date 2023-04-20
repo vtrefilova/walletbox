@@ -304,7 +304,22 @@ public class TinkoffService {
 
         driver.get("https://www.tinkoff.ru/login/");
 
-        WebElement phoneInput = new WebDriverWait(driver, Duration.of(60, ChronoUnit.SECONDS)).until(ExpectedConditions.visibilityOf(driver.findElement(By.id("phoneNumber"))));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.of(60, ChronoUnit.SECONDS));
+        
+        // Wait for the URL to contain "id.tinkoff.ru"
+        wait.until(ExpectedConditions.urlContains("id.tinkoff.ru"));
+
+        // Get all the visible elements on the page
+        List<WebElement> visibleElements = driver.findElements(By.xpath("//*[not(self::script) and not(self::style)]"));
+
+        // Print the ID of each visible element
+        for (WebElement element : visibleElements) {
+            if (element.isDisplayed()) {
+                System.out.println("Element ID: " + element.getAttribute("id"));
+            }
+        }
+
+        WebElement phoneInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#phoneNumber")));
         phoneInput.sendKeys(phone);
 
         WebElement button = (new WebDriverWait(driver, Duration.of(60, ChronoUnit.SECONDS))).until(ExpectedConditions.visibilityOf(driver.findElement(By.id("submit-button"))));
